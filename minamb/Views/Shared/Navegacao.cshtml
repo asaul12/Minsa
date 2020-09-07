@@ -14,8 +14,22 @@
             </li>
             <li class="treeview">
                 <a href="#">
+                    <i class="fa fa-users"></i>
+                    <span>Entidades</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="@Url.Action("Funcionarios", "Funcionario", new {Area = ""})"><i class="fa fa-edit"></i>Funcionários</a></li>
+                    <li><a href="@Url.Action("Index","Utilizadores", new {Area = ""})"><i class="fa fa-users"></i> <span>Gestão de Usuários</span></a></li>
+                    <li><a href="@Url.Action("Funcionarios", "Funcionario", new {Area = ""})"><i class="fa fa-edit"></i>Requerentes</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
                     <i class="fa fa-certificate"></i>
-                    <span>Análises</span>
+                    <span>Processos</span>
                     <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
                     </span>
@@ -29,19 +43,46 @@
 
             <li class="treeview">
                 <a href="#">
-                    <i class="fa fa-users"></i>
-                    <span>Capital Humano</span>
+                    <i class="fa fa-certificate"></i>
+                    <span>Caixa</span>
                     <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="@Url.Action("Index","Utilizadores", new {Area = ""})"><i class="fa fa-users"></i> <span>Gestão de Utilizadores</span></a></li>
-                    <li><a href="@Url.Action("Funcionarios", "Funcionario", new {Area = ""})"><i class="fa fa-edit"></i>Funcionários</a></li>
+                    <li><a href="#"><i class="fa fa-bookmark"></i>Sub-menu</a></li>
+                    <li><a href="#"><i class="fa fa-asterisk"></i>Sub-menu</a></li>
 
                 </ul>
             </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-certificate"></i>
+                    <span>Relatórios</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="#"><i class="fa fa-bookmark"></i>Sub-menu</a></li>
+                    <li><a href="#"><i class="fa fa-asterisk"></i>Sub-menu</a></li>
 
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-certificate"></i>
+                    <span>Definições</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="#"><i class="fa fa-bookmark"></i>Sub-menu</a></li>
+                    <li><a href="#"><i class="fa fa-asterisk"></i>Sub-menu</a></li>
+
+                </ul>
+            </li>
         </ul>
     </section>
     <!-- /.sidebar -->

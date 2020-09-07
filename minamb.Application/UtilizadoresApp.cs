@@ -18,7 +18,7 @@ namespace minamb.Application
                 Nome = x.Nome,
                 Login = x.UserName,
                 Email = x.Email,
-                Roles = x.AspNetRoles.Select(r => r.Name).ToList()
+                //Roles = x.AspNetRoles.Select(r => r.Name).ToList()
             }).ToList();
         }
 
