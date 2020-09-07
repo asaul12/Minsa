@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="41b5ac3aee75406e98dabe5d6b76a5ce" Name="Diagram1">
+        <EntityTypeShape EntityType="MinAmbModel.C__MigrationHistory" Width="1.5" PointX="0.75" PointY="6.75" />
+        <EntityTypeShape EntityType="MinAmbModel.AspNetRoles" Width="1.5" PointX="0.75" PointY="2.5" />
+        <EntityTypeShape EntityType="MinAmbModel.AspNetUserClaims" Width="1.5" PointX="5.25" PointY="1" />
+        <EntityTypeShape EntityType="MinAmbModel.AspNetUserLogins" Width="1.5" PointX="5.25" PointY="3.75" />
+        <EntityTypeShape EntityType="MinAmbModel.AspNetUsers" Width="1.5" PointX="3" PointY="1.25" />
+        <AssociationConnector Association="MinAmbModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="MinAmbModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="MinAmbModel.AspNetUserRoles" />
+        <EntityTypeShape EntityType="MinAmbModel.EstadoCivil" Width="1.5" PointX="5.625" PointY="13.625" />
+        <EntityTypeShape EntityType="MinAmbModel.Funcionario" Width="1.5" PointX="7.875" PointY="7" />
+        <EntityTypeShape EntityType="MinAmbModel.Genero" Width="1.5" PointX="5.625" PointY="16" />
+        <EntityTypeShape EntityType="MinAmbModel.Municipio" Width="1.5" PointX="5.625" PointY="8.375" />
+        <EntityTypeShape EntityType="MinAmbModel.Provincia" Width="1.5" PointX="3.375" PointY="8.625" />
+        <EntityTypeShape EntityType="MinAmbModel.TipoDocumento" Width="1.5" PointX="5.625" PointY="11.25" />
+        <AssociationConnector Association="MinAmbModel.FK__Funcionar__IdEst__6E01572D" />
+        <AssociationConnector Association="MinAmbModel.FK__Funcionar__IdGen__6EF57B66" />
+        <AssociationConnector Association="MinAmbModel.FK__Funcionar__IdMun__6D0D32F4" />
+        <AssociationConnector Association="MinAmbModel.FK__Funcionar__IdTip__6C190EBB" />
+        <AssociationConnector Association="MinAmbModel.FK__Municipio__IdPro__60A75C0F" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

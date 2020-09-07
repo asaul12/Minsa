@@ -1,0 +1,27 @@
+﻿<li class="dropdown user user-menu">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        <i class="fa fa-user-circle-o"></i>
+        <span class="hidden-xs">@User.Identity.GetNome()</span>
+    </a>
+    <ul class="dropdown-menu">
+        <!-- User image -->
+        <li class="user-header" style="color: white">
+            <h2>
+            </h2>
+            <h3>
+                <small class="h3">@User.Identity.GetNome()</small>
+            </h3>
+        </li>
+        <!-- Menu Body -->
+        <li class="user-footer">
+            <div class="pull-left">
+                <a class="btn btn-default btn-flat"><i class="fa fa-user-circle-o"></i>&nbsp;Perfil</a>
+            </div>
+            <div class="pull-right">
+                <a href="@Url.Action("LogOff","Account", new {Area = ""})" class="btn btn-default btn-flat"><i class="fa fa-sign-out"></i>&nbsp;Sair</a>
+            </div>
+        </li>
+    </ul>
+</li>
+
+

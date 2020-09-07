@@ -1,0 +1,16 @@
+﻿
+    div .panel-group div.panel-heading a
+{
+    text-decoration: none;
+    display: block;
+    padding: 10px 15px;
+}
+
+div.panel-group div.panel-heading a:focus, div.panel-group div.panel-heading a:hover {
+    box-shadow: 0 0 1.5px 1.5px grey
+}
+
+div.panel-group .panel-heading {
+    padding: 0
+}
+

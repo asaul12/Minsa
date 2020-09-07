@@ -1,0 +1,43 @@
+﻿<header class="header dark-bg">
+    <div class="toggle-nav">
+        <div class="icon-reorder tooltips" data-original-title="Fechar menu" data-placement="bottom"><i class="icon_menu"></i></div>
+    </div>
+
+    <!--logo start-->
+    <a href="index.html" class="logo">MIN <span class="lite">SAÚDE</span></a>
+    <!--logo end-->
+    <div class="top-nav notification-row">
+        <!-- notificatoin dropdown start-->
+        <ul class="nav pull-right top-menu">
+
+            <!-- task notificatoin start -->
+            <!-- task notificatoin end -->
+            <!-- inbox notificatoin start-->
+
+            <!-- inbox notificatoin end -->
+            <!-- alert notification start-->
+ 
+            <!-- alert notification end-->
+            <!-- user login dropdown start-->
+            <li class="dropdown">
+                <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                    <span class="profile-ava">
+                        <img alt="" src="~/assets/img/avatar-mini2.jpg">
+                    </span>
+                    <span class="username">@User.Identity.GetNome()</span>
+                    <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu extended logout">
+                    <li class="eborder-top">
+                        <a href="#"><i class="icon_profile"></i>&nbsp;Meu perfíl</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("LogOff","Account", new {Area = ""})"><i class="icon_key_alt"></i>&nbsp;Sair</a>
+                    </li>
+                </ul>
+            </li>
+            <!-- user login dropdown end -->
+        </ul>
+        <!-- notificatoin dropdown end-->
+    </div>
+</header>

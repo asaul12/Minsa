@@ -1,0 +1,299 @@
+﻿
+
+<div id="app">
+    <h1 class="titulo"><i class="fa fa-users fa-fw"></i>Funcionários</h1>
+
+    <div class="row">
+        <div class="col-md-9">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Filtrar cliente (Nome, telefone, email)" aria-label="" v-model="filtro">
+                <span class="input-group-btn">
+                    <button class="btn btn-primary" type="button" v-on:click="filtrarCliente"><i class="fa fa-search"></i>&nbsp;Pesquisar</button>
+                </span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <button class="btn btn-primary" data-toggle="modal" data-target="#addClienteModal">
+                <i class="fa fa-plus"></i>&nbsp;Cadastrar Funcionário
+            </button>
+        </div>
+    </div>
+
+    <hr />
+    <div v-if="clientes.length > 0">
+        <div>
+            <span>
+                Mostrando
+                <select v-model="itemsByPage">
+                    <option>5</option>
+                    <option>10</option>
+                    <option>25</option>
+                </select> de {{clientes.length}} resultados.
+            </span>
+            <ul class="pagination pull-right">
+                <li class="page-item" v-bind:class="n == currentPage ? 'active' : ''" v-for="n in totalPages"><a class="page-link" href="#" v-on:click="setPage(n)">{{n}}</a></li>
+            </ul>
+        </div>
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
+                <tr>
+                    <th style="width: 10px"></th>
+                    <th>Nome</th>
+                    @*<th>Código</th>*@
+                    <th>Email</th>
+                    <th>Telefone</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="c in clientsInPage">
+                    <td>
+                        <a class="btn btn-sm btn-outline-primary" v-bind:href="'@(Url.Action("", "", new {Area = ""}))' + '/' + c.IdCliente">
+                            <i class="fa fa-info-circle"></i>
+                        </a>
+                    </td>
+                    <td>
+                        {{c.Nome}}
+                    </td>
+                    <td>
+                        {{c.Email}}
+                    </td>
+                    <td>
+                        {{c.TelefonePrimario}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <h2 class="text-center" v-else>Sem resultados</h2>
+    <div class="modal fade" id="addClienteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Cadastrar Cliente</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">                     
+                        <div class="col-md-12">
+                            <label>Nome</label>
+                            <input type="text" class="form-control" v-bind:class="validNome ? 'is-valid' : 'is-invalid'" placeholder="Nome do Cliente" aria-label="Nome do Cliente" v-model="cNome" maxlength="100">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="dataNasc">Data de Nascimento</label>
+                            <input class="form-control" v-bind:class="validDataNasc ? 'is-valid' : 'is-invalid'" id="dataNasc" type="date" required v-model="cDataNasc" />
+                        </div>
+                        <div class="col-md-6">
+                            <label>Municipio</label>
+                            <Select class="form-control" v-bind:class="validMunicipio ?'is-valid' : 'is-invalid'" v-model="cIdMunicipio">
+                                <optgroup v-bind:label="p.NomeProvincia" v-for="p in prov">
+                                    <option v-bind:value="m.IdMunicipio" v-for="m in p.Municipios">{{m.NomeMunicipio}}</option>
+                                </optgroup>
+                            </Select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label>Telefone</label>
+                            <input class="form-control" maxlength="9" v-model="cTelefonePrincipal" v-bind:class="validTelefonePrincipal ? 'is-valid' : 'is-invalid'" />
+                        </div>
+                        <div class="col-md-8">
+                            <label>Email</label>
+                            <input class="form-control" maxlength="50" v-model="cEmail" type="email" v-bind:class="validEmail ? 'is-valid' : 'is-invalid'" />
+                        </div>
+
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label>Genero</label>
+                            <select class="form-control" v-model="cGenero" v-bind:class="hasGenero?'is-valid':'is-invalid'">
+                                <option v-for="g in generos" :value="g.IdGenero">{{g.NomeGenero}}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="tipoDoc">Tipo de Documento</label>
+                            <select class="form-control" id="tipoDoc" v-bind:class="validTipoDoc ? 'is-valid' : 'is-invalid'" v-model="cTipoDoc">
+                                <option v-for="t in tipoDocs" v-bind:value="t.IdTipoDoc">{{t.Tipo}}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="numDoc">Nº do Documento</label>
+                            <input class="form-control" maxlength="15" id="numDoc" v-model="cNumDoc" v-bind:class="validNumDoc ? 'is-valid' : 'is-invalid'" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i>&nbsp;Cancelar</button>
+                    <button type="button" class="btn btn-success" v-if="validFormulario" v-on:click="criarCliente()"><i class="fa fa-save"></i>&nbsp;Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*<pre>{{$data | json}}</pre>*@
+</div>
+
+@section scripts
+{
+    <script>
+        var clienteApp = new Vue({
+            el: '#app',
+            data: {
+                currentPage: 1,
+                itemsByPage: 10,
+                filtro: '',
+                contrato: '',
+                clientebycontrato:[],
+                clientes: [],
+                cNome: '',
+                cDataNasc: '',
+                cGenero: 0,
+                cIdMunicipio:0,
+                cEstadoCivil: '',
+                cTipoDoc: 0,
+                cNumDoc: '',
+                cNif: '',
+                cEmail: '',
+                cTelefonePrincipal: '',
+                cTelefoneAlternativo: '',
+                cMorada: '',
+                cMunicipio: '',
+                cProfissao: '',
+                cIdOndeViuAnuncio: 9,
+                prov:  @Html.Raw(ViewBag.Provincia),
+                generos: @Html.Raw(ViewBag.Generos),
+                estadoscivil: @Html.Raw(ViewBag.EstadosCivis),
+                tipoDocs: @Html.Raw(ViewBag.TipoDocs)
+            },
+            watch : {
+                itemsByPage : function() {
+                    var self = this;
+
+                    self.currentPage = 1;
+                }
+            },
+            computed: {
+                clientsInPage : function() {
+                    return this.clientes.slice((this.currentPage - 1) * this.itemsByPage, (this.currentPage) * this.itemsByPage) ;
+                },
+                totalPages : function() {
+                    return Math.ceil(this.clientes.length / this.itemsByPage);
+                },
+                validNome: function() {
+                    return this.cNome !== '';
+                },
+                validDataNasc: function() {
+                    return this.cDataNasc !== '';
+                },
+
+                validNumDoc : function() {
+                    return this.cNumDoc !== '';
+                },
+                validTipoDoc: function() {
+                    return this.cTipoDoc > 0;
+                },
+                validMunicipio: function() {
+                    return this.cIdMunicipio > 0;
+                },
+                validEmail: function() {
+                    return this.cEmail !== '' & validarEmail(this.cEmail);
+                },
+                validTelefonePrincipal: function() {
+                    return this.cTelefonePrincipal !== '' & validarTelefone(this.cTelefonePrincipal);
+                },
+                validTelefoneAlternativo : function() {
+                    return this.cTelefoneAlternativo === '' | validarTelefone(this.cTelefoneAlternativo);
+                },
+
+                hasOndeViuAnuncio: function () {
+                    return this.cIdOndeViuAnuncio > 0;
+                },
+                hasGenero: function () {
+                    return this.cGenero > 0;
+                },
+                validFormulario : function() {
+                    return this.validNome &
+                        this.validDataNasc &
+                        this.validEmail &
+                        this.validTelefonePrincipal &
+                        this.validMunicipio
+                }
+            },
+            methods: {
+                setPage : function(n) {
+                    var self = this;
+
+                    self.currentPage = n;
+                },
+                criarCliente: function () {
+
+                    $('#addClienteModal').modal('hide');
+
+                    var self = this;
+
+                    var datos = {
+                        Nome: this.cNome,
+                        DataNascimento: this.cDataNasc,
+                        Profissao: this.cProfissao,
+                        IdTipoDocumento: this.cTipoDoc,
+                        NumDocumento: this.cNumDoc,
+                        TelefonePrimario: this.cTelefonePrincipal,
+                        TelefoneAlternativo: this.cTelefoneAlternativo,
+                        Email: this.cEmail,
+                        IdMunicipio: this.cIdMunicipio,
+                        IdGenero:this.cGenero
+                    };
+
+                    $.ajax({
+                            url: '@Url.Action("CriarFuncionario", "Funcionario", new {Area = ""})',
+                            method: "POST",
+                            data: datos,
+                            type: 'json'
+                        })
+                        .done(function (res) {
+                            MostrarResultado(res);
+                        })
+                        .fail(function () {
+                            MsgErro();
+                        })
+                        .always(function () {
+                            //waiter.finish();
+                        });
+                },
+                filtrarCliente: function()
+                {
+                    var self = this;
+                    var waiter = Splash();
+                    $.ajax({
+                            url: '@Url.Action("FiltrarFuncionario", "Funcionario", new {Area = ""})',
+                            method: "POST",
+                            data: {
+                                filtro: self.filtro
+                            },
+                            type: 'json'
+                        })
+                        .done(function (res) {
+                            console.log(res);
+                            self.currentPage = 1;
+                            self.clientes = res;
+                        })
+                        .fail(function () {
+                            MsgErro();
+                        })
+                        .always(function () {
+                            waiter.finish();
+                        });
+                },
+            },
+            filters: {
+                json: function (value) {
+                    return JSON.stringify(value, null, 2);
+                }
+            }
+        });
+    </script>
+}

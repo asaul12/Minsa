@@ -1,0 +1,433 @@
+﻿
+<div id="app">
+
+    <h1 class="titulo"><i class="fa fa-users"></i>Utilizadores</h1>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Nome, email o usuario" v-model="filtro">
+                <span class="input-group-btn">
+                    <button class="btn btn-primary" type="button" v-on:click="filtrarUtilizadores"><i class="fa fa-search"></i></button>
+                </span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <button class="btn btn-primary" data-toggle="modal" data-target="#addUtilizador">
+                <i class="fa fa-user-plus fa-fw"></i>&nbsp;Criar Utilizador
+            </button>
+        </div>
+    </div>
+    <hr />
+    <template v-if="users.length < 1">
+        <h2 class="text-center">Sem resultados</h2>
+    </template>
+    <template v-else>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th style="width: 10px"></th>
+                    <th>Nome</th>
+                    <th>Login</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for=" u in clientsInPage">
+                    <td>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-info-circle"></i>
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" v-on:click="openUpdatePass(u.IdUtilizador)"><i class="fa fa-asterisk fa-fw"></i>&nbsp;Alterar senha</a>
+                                <a class="dropdown-item" v-on:click="openUpdateAccessModal(u)"><i class="fa fa-unlock-alt fa-fw"></i>&nbsp;Alterar acessos</a>
+                                <a class="dropdown-item" v-on:click="openUpdateUserName(u)"><i class="fa fa-edit fa-fw"></i>&nbsp;Editar Utilizador</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item disabled" href="#"><i class="fa fa-lock fa-fw text-danger"></i>&nbsp;Bloquear utilizador</a>
+                            </div>
+                        </div>
+                    </td>
+                    <td>{{u.Nome}}</td>
+                    <td>{{u.Login}}</td>
+                    <td>{{u.Email}}</td>
+
+                </tr>
+            </tbody>
+        </table>
+    </template>
+
+    <div class="modal fade" id="addUtilizador" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Novo Utilizador</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="addNome">Nome</label>
+                        <input class="form-control" id="addNome" v-model="addNome" maxlength="50" />
+                    </div>
+                    <div class="form-group">
+                        <label for="addLogin">Login</label>
+                        <input class="form-control" id="addLogin" v-model="addLogin" maxlength="50" />
+                    </div>
+                    <div class="form-group">
+                        <label for="addEmail">Email</label>
+                        <input class="form-control" id="addEmail" v-model="addEmail" type="email" maxlength="50" />
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="addSenha">Senha</label>
+                                <input class="form-control" id="addSenha" v-model="addSenha" type="password" maxlength="25" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="addConfirm">Confirmar senha</label>
+                                <input class="form-control" id="addConfirm" v-model="addConfirm" type="password" maxlength="25" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="custom-controls-stacked">
+                        <label>Permissões</label>
+                        <template v-for="r in roles">
+                            <label class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" v-bind:value="r" v-model="addRoles">
+                                <span class="custom-control-indicator"></span>
+                                <span class="custom-control-description">{{r}}</span>
+                            </label>
+                        </template>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-danger" data-dismiss="modal"><i class="fa fa-times fa-fw"></i>&nbsp;Cancelar</button>
+                    <button type="button" class="btn btn-outline-success" v-if="validUtilizador" v-on:click="criarUsuario"><i class="fa fa-user-plus fa-fw"></i>&nbsp;Criar Utilizador</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="updatePass" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Actualizar Senha</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-warning" role="alert">
+                        Alterações terão efeito apois reiniciar sessão.
+                    </div>
+
+                    <div class="form-group">
+                        <label for="newPass">Senha</label>
+                        <input class="form-control" id="newPass" v-model="newPass" type="password" maxlength="25" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="newConfirm">Confirmar senha</label>
+                        <input class="form-control" id="newConfirm" v-model="newConfirm" type="password" maxlength="25" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times fa-fw"></i>&nbsp;Cancelar</button>
+                    <button type="button" class="btn btn-success" v-on:click="updatePass"><i class="fa fa-refresh fa-fw"></i>&nbsp;Actualizar senha</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* inicio modal editar user*@
+
+    <div class="modal fade" id="updateUserName" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Actualizar Nome do Agente</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-warning" role="alert">
+                        <span>{{selUser.Nome}}</span> <em>({{selUser.Login}})</em>
+                    </div>
+                    <div class="form-group">
+                        <label for="newConfirm">Novo nome</label>
+                        <input class="form-control" id="newName" v-model="newName" type="text" maxlength="50" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="newConfirm">Novo Login</label>
+                        <input class="form-control" id="newLogin" v-model="newLogin" placeholder="Colocar login antigo caso não pretende alterar" type="text" maxlength="50" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times fa-fw"></i>&nbsp;Cancelar</button>
+                    <button type="button" class="btn btn-success" v-on:click="updateNome"><i class="fa fa-refresh fa-fw"></i>&nbsp;Actualizar Nome</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    @*fim modal editar user*@
+
+    <div class="modal fade" id="accessModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">{{selUser.Nome}}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="custom-controls-stacked">
+                        <label>Permissões</label>
+                        <template v-for="r in roles">
+                            <label class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" v-bind:value="r" v-model="selUser.Roles">
+                                <span class="custom-control-indicator"></span>
+                                <span class="custom-control-description">{{r}}</span>
+                            </label>
+                        </template>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i>&nbsp;Cancelar</button>
+                    <button type="button" class="btn btn-success" v-on:click="accessUpdate"><i class="fa fa-save"></i>&nbsp;Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                users: [],
+                filtro: '',
+                selUser: {
+                },
+                roles: @Html.Raw(ViewBag.Roles),
+                addNome: '',
+                addLogin: '',
+                addEmail: '',
+                addSenha: '',
+                addConfirm: '',
+                addRoles: [],
+                newIdUser: '',
+                newPass: '',
+                newConfirm: '',
+                newName: '',
+                oldName: '',
+                newLogin:''
+            },
+            computed: {
+                validUpdatePass : function() {
+                    return this.newPass !== '' & this.newPass === this.newConfirm;
+                },
+                validFiltro: function() {
+                    return this.filtro !== '';
+                },
+                validNome: function() {
+                    return this.addNome !== '';
+                },
+                validLogin: function() {
+                    return this.addLogin !== '';
+                },
+                validEmail: function() {
+                    return this.addEmail === '' | validarEmail(this.addEmail);
+                },
+                validSenha: function() {
+                    return this.addSenha !== '';
+                },
+                validConfirm: function() {
+                    return this.addConfirm === this.addSenha;
+                },
+                validUtilizador: function() {
+                    return this.validNome && this.validLogin && this.validEmail && this.validSenha && this.validConfirm;
+                }
+            },
+            methods: {
+                updatePass: function () {
+                    $('#updatePass').modal('toggle');
+
+                    $.ajax({
+                            url: '@Url.Action("ActualizarSenha", "Utilizadores", new {Area = ""})',
+                            method: "POST",
+                            data: {
+                                idUsuario: this.newIdUser,
+                                senha: this.newPass
+                            },
+                            type: 'json'
+                        }).done(function (res) {
+                                MostrarResultado(res);
+                         }).fail(function () {
+                                 MsgErro();
+                             })
+                            .always(function () {
+                                 //waiter.finish();
+                             });
+                },
+                                updateNome: function () {
+                                    $('#updateUserName').modal('toggle');
+
+                    $.ajax({
+                            url: '@Url.Action("ActualizaNome", "Utilizadores", new {Area = ""})',
+                            method: "POST",
+                            data: {
+                                idUsuario: this.selUser.IdUser,
+                                nome: this.newName,
+                                login: this.newLogin
+                            },
+                            type: 'json'
+                        }).done(function (res) {
+                                MostrarResultado(res);
+                         }).fail(function () {
+                                 MsgErro();
+                             })
+                            .always(function () {
+                                 //waiter.finish();
+                             });
+                },
+                openUpdatePass : function(id) {
+                    var self = this;
+
+                    this.newIdUser = id;
+
+                    $('#updatePass').modal('toggle');
+                },
+
+                openUpdateUserName: function (u) {
+                    var self = this;
+
+                    var user = {
+                        IdUser: u.IdUtilizador,
+                        Nome: u.Nome,
+                        Roles: u.Roles,
+                        Login: u.Login
+                    };
+
+                    self.selUser = user;
+
+                    $('#updateUserName').modal('toggle');
+                },
+                checkAccess: function(r) {
+
+                },
+                openUpdateAccessModal: function(u) {
+                    var self = this;
+
+                    var user = {
+                        IdUser : u.IdUtilizador,
+                        Nome : u.Nome,
+                        Roles : u.Roles
+                    };
+
+                    self.selUser = user;
+
+                    $('#accessModal').modal('show');
+                },
+                accessUpdate: function () {
+                    var self = this;
+                    $('#accessModal').modal('toggle');
+
+                    var datos = {
+                        idUsuario: this.selUser.IdUser,
+                        roles: this.selUser.Roles
+                    }
+
+                     $.ajax({
+                            url: '@Url.Action("ActualizaRoles", "Utilizadores", new {Area = ""})',
+                            method: "POST",
+                            data: datos,
+                            type: 'json'
+                        }).done(function (res) {
+                                MostrarResultado(res);
+                                self.filtrarUtilizadores();
+                         }).fail(function () {
+                                 MsgErro();
+                             })
+                            .always(function () {
+                                 //waiter.finish();
+                             });
+                },
+
+                limparFormulario: function() {
+                             var self = this;
+
+                             self.addNome = '';
+                             self.addLogin= '';
+                             self.addEmail= '';
+                             self.addSenha = '';
+                             self.addConfirm = '';
+                             self.addRoles = [];
+                         },
+                filtrarUtilizadores: function() {
+                     debugger;
+                    $.ajax({
+                            url: '@Url.Action("FiltrarUtilizadores", "Utilizadores", new {Area = ""})',
+                            method: "POST",
+                            data: { f: this.filtro },
+                            type: 'json'
+                        }).done(function (res) {
+                            debugger;
+                                 this.users = res;
+                             })
+                            .fail(function () {
+                                 MsgErro();
+                             })
+                            .always(function () {
+                                 //waiter.finish();
+                             });
+
+                         },
+                criarUsuario: function () {
+
+                    var self = this;
+
+                    $('#addUtilizador').modal('hide');
+
+                        var datos = {
+                        Nome: this.addNome,
+                        Email: this.addEmail,
+                        Login: this.addLogin,
+                        Password: this.addSenha,
+                        ConfirmPassword: this.addConfirm,
+                        Roles: this.addRoles
+                    };
+
+                    $.ajax({
+                        url: '@Url.Action("CriarUtilizadorAsync","Utilizadores", new {Area =""})',
+                        dataType: 'json',
+                        traditional: true,
+                        method: "POST",
+                        data: datos,
+                        success: function (data) {
+                                 if (data.Exito === true)
+                                     self.limparFormulario();
+                                 MostrarResultado(data);
+                             }
+                         });
+                }
+            },
+            filters: {
+                json: function(value) {
+                         return JSON.stringify(value, null, 2);
+                     }
+            }
+        })
+    </script>
+}

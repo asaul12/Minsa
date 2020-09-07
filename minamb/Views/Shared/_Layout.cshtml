@@ -1,0 +1,194 @@
+﻿
+
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>MINSA - @ViewBag.Title</title>
+
+    <link href="~/assets/plugins/PleaseWait/please-wait.css" rel="stylesheet" />
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    @*<link href="~/assets/css/bootstrap.min.css" rel="stylesheet" />*@
+    <script src="~/assets/plugins/PleaseWait/please-wait.js"></script>
+    <link href="~/assets/assets2/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/assets/assets2/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/assets/assets2/bower_components/Ionicons/css/ionicons.min.css" rel="stylesheet" />
+    <link href="~/assets/assets2/dist/css/AdminLTE.min.css" rel="stylesheet" />
+    @*<link href="~/assets/css/font-awesome.min.css" rel="stylesheet" />*@
+    @*<link href="~/assets/css/AdminLTE.min.css" rel="stylesheet" />*@
+    <link href="~/assets/css/skin-blue.min.css" rel="stylesheet" />
+    <link href="~/assets/plugins/highcharts/css/highcharts.css" rel="stylesheet" />
+    <link href="~/assets/plugins/iCheck/all.css" rel="stylesheet" />
+    <link href="~/assets/plugins/SweetAlert2/sweetalert2.min.css" rel="stylesheet" />
+    <link href="~/assets/css/Chart.min.css" rel="stylesheet" />
+    <link href="~/assets/plugins/bootstrap-slider/slider.css" rel="stylesheet" />
+    <link href="~/assets/css/Rating.css" rel="stylesheet" />
+    <link href="~/assets/css/_all-skins.css" rel="stylesheet" />
+    @*<link href="~/assets/css/Ionicons/css/ionicons.min.css" rel="stylesheet" />*@
+    @*<link href="~/assets/css/_all-skins.min.css" rel="stylesheet" />*@
+    <link href="~/assets/css/jquery-jvectormap.css" rel="stylesheet" />
+    <link href="~/assets/css/bootstrap-datepicker.min.css" rel="stylesheet" />
+    <link href="~/assets/css/morris.css" rel="stylesheet" />
+    @*<link href="~/Assets/css/treeView.css" rel="stylesheet" />*@
+    <link href="~/assets/css/daterangepicker.css" rel="stylesheet" />
+    @*<link href="~/Assets/plugins/pNotify/PNotifyBrightTheme.min.css" rel="stylesheet" />*@
+    <link href="~/assets/plugins/pNotify/pnotify.custom.min.css" rel="stylesheet" />
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <link href="~/assets/css/bootstrap-vue.min.css" rel="stylesheet" />
+    <link href="~/assets/css/cssColapse.css" rel="stylesheet" />
+    <link href="~/assets/css/vuesax.css" rel="stylesheet" />
+
+
+
+
+</head>
+<body class="sidebar-mini sidebar-collapse skin-green-light">
+    <script src="~/assets/js/loader.js"></script>
+    <script src="~/assets/js/vue.js"></script>
+    @*<script src="~/assets/js/vue.min.js"></script>*@
+    <script src="~/assets/js/moment.js"></script>
+
+
+
+    <!-- use the latest vue-select release -->
+    <script src="~/assets/js/vue-select.js"></script>
+    <link rel="stylesheet" href="~/Assets/css/vue-select.css">
+
+    <link href="~/assets/css/selectize.css" rel="stylesheet" />
+
+
+
+    <!-- or point to a specific vue-select release -->
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        <header class="main-header">
+            <!-- Logo -->
+            <a href="@Url.Action("Index","Home", new {Area = ""})" class="logo">
+                <!-- mini logo for sidebar mini 50x50 pixels -->
+                <span class="logo-mini"><b>Linc</b></span>
+                <!-- logo for regular state and mobile devices -->
+                <span class="logo-lg"><b>L</b>icenciamento</span>
+            </a>
+            <!-- Header Navbar: style can be found in header.less -->
+            <nav class="navbar navbar-static-top">
+                <!-- Sidebar toggle button-->
+                <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+                <div class="navbar-custom-menu" id="app1">
+                    <ul class="nav navbar-nav">
+                        @*@Html.Partial("Cliente")*@
+
+
+                        @Html.Partial("Utilizador")
+
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <!-- =============================================== -->
+        <!-- Left side column. contains the sidebar -->
+        @Html.Partial("Navegacao")
+        <!-- =============================================== -->
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    <i class="fa-2x @ViewBag.Icon" style="margin-right: 10px;margin-left: 10px"></i>
+                    <span class="h1">@ViewBag.Title</span>
+                </h1>
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                @RenderBody()
+                <!-- Default box -->
+                <!-- /.box -->
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        @Html.Partial("Footer")
+
+    </div>
+
+    <script src="~/assets/assets2/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="~/assets/assets2/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/assets/assets2/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="~/assets/assets2/dist/js/adminlte.min.js"></script>
+    <script src="~/assets/assets2/dist/js/demo.js"></script>
+    @*<script src="~/Assets/js/Chart.bundle.min.js"></script>*@
+    @*<script src="~/assets/js/jquery.min.js"></script>*@
+    @*<script src="~/assets/js/bootstrap.min.js"></script>*@
+    @*<script src="~/assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js"></script>*@
+    @*<script src="~/assets/js/fastclick.js"></script>
+        <script src="~/assets/js/adminlte.min.js"></script>*@
+    <script src="~/assets/plugins/SweetAlert2/sweetalert2.min.js"></script>
+    <script src="~/assets/plugins/pNotify/PNotify.min.js"></script>
+    <script src="~/assets/js/UI.v2.js"></script>
+    <script src="~/assets/js/bootstrap-vue.min.js"></script>
+    <script src="~/assets/js/jquery.knob.js"></script>
+    <script src="~/assets/js/jquery.sparkline.js"></script>
+    <script src="~/assets/js/jquery.sparkline.min.js"></script>
+    <script src="~/assets/plugins/highcharts/highcharts.js"></script>
+    <script src="~/assets/js/jquery.slimscroll.js"></script>
+    <script src="~/assets/js/jquery.slimscroll.min.js"></script>
+    <script src="~/assets/plugins/bootstrap-slider/bootstrap-slider.js"></script>
+    <script src="~/assets/plugins/iCheck/icheck.min.js"></script>
+    <script src="~/assets/js/vuesax.umd.min.js"></script>
+    <script src="~/assets/js/star-rating.min.js"></script>
+    <script src="~/assets/js/jquery-jvectormap.js"></script>
+    <script src="~/assets/js/bootstrap-datepicker.min.js"></script>
+    <script src="~/assets/js/daterangepicker.js"></script>
+
+    <script src="~/assets/js/bootstrap3-wysihtml5.all.min.js"></script>
+    <script src="~/assets/js/jquery.slimscroll.min.js"></script>
+    <script src="~/assets/js/selectize.min.js"></script>
+    <script src="~/assets/js/appSetting.js"></script>
+    <script src="https://cdn.ckeditor.com/4.11.1/standard/ckeditor.js"></script>
+    <script src="https://cdn.jsdelivr.net/vuejs-paginator/2.0.0/vuejs-paginator.min.js"></script>
+    <script src="~/assets/js/moment.js"></script>
+
+    @*<script type="text/javascript" src="~/Scripts/jquery-3.3.1.min.js"></script>*@
+
+
+
+    @if (TempData["Erro"] != null)
+    {
+        <script>
+            MsgErro('@(TempData["Erro"].ToString())');
+        </script>
+    }
+
+    @if (TempData["Ok"] != null)
+    {
+        <script>
+            MsgOk('@(TempData["Ok"].ToString())');
+        </script>
+    }
+
+    @if (TempData["Alert"] != null)
+    {
+        <script>
+            MsgAlert('@(TempData["Alert"].ToString())');
+        </script>
+    }
+
+    @if (TempData["Info"] != null)
+    {
+        <script>
+            MsgInfo('@(TempData["Info"].ToString())');
+        </script>
+    }
+    @RenderSection("scripts", false)
+</body>
+</html>
+
