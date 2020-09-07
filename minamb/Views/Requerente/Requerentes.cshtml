@@ -1,0 +1,308 @@
+﻿
+
+
+    <div id="app">
+        <h1 class="titulo"><i class="fa fa-users fa-fw"></i>Requerentes</h1>
+
+        <div class="row">
+            <div class="col-md-9">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Filtrar cliente (Nome, telefone, email)" aria-label="" v-model="filtro">
+                    <span class="input-group-btn">
+                        <button class="btn btn-primary" type="button" v-on:click="filtrarCliente"><i class="fa fa-search"></i>&nbsp;Pesquisar</button>
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <button class="btn btn-primary" data-toggle="modal" data-target="#addClienteModal">
+                    <i class="fa fa-plus"></i>&nbsp;Cadastrar Requerente
+                </button>
+            </div>
+        </div>
+
+        <hr />
+        <div v-if="clientes.length > 0">
+            <div>
+                <span>
+                    Mostrando
+                    <select v-model="itemsByPage">
+                        <option>5</option>
+                        <option>10</option>
+                        <option>25</option>
+                    </select> de {{clientes.length}} resultados.
+                </span>
+                <ul class="pagination pull-right">
+                    <li class="page-item" v-bind:class="n == currentPage ? 'active' : ''" v-for="n in totalPages"><a class="page-link" href="#" v-on:click="setPage(n)">{{n}}</a></li>
+                </ul>
+            </div>
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th style="width: 10px"></th>
+                        <th>Nome</th>
+                        @*<th>Código</th>*@
+                        <th>Pessoa de Contacto</th>
+                        <th>Telefone</th>
+                        <th>Endereço</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="c in clientsInPage">
+                        <td>
+                            <a class="btn btn-sm btn-outline-primary" v-bind:href="'@(Url.Action("", "", new {Area = ""}))' + '/'">
+                                <i class="fa fa-info-circle"></i>
+                            </a>
+                        </td>
+                        <td>
+                            {{c.Nome}}
+                        </td>
+                        <td>
+                            {{c.PessoaDeContacto}}
+                        </td>
+                        <td>
+                            {{c.TelefonePrimario}}
+                        </td>
+                        <td>
+                            {{c.Endereco}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <h2 class="text-center" v-else>Sem resultados</h2>
+        <div class="modal fade" id="addClienteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Cadastrar Requerente</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label>Nome</label>
+                                <input type="text" class="form-control" v-bind:class="validNome ? 'is-valid' : 'is-invalid'" placeholder="Nome do contacto" aria-label="Nome do contacto" v-model="rNome" maxlength="100">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label>Pessoa de Contacto</label>
+                                <input class="form-control" maxlength="50" v-model="rPessoaContacto" />
+                            </div>
+                            <div class="col-md-8">
+                                <label>Email</label>
+                                <input class="form-control" maxlength="50" v-model="rEmail" type="email" v-bind:class="validEmail ? 'is-valid' : 'is-invalid'" />
+                            </div>
+
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Telfone Principal </label>
+                                <input class="form-control" maxlength="12" v-model="rTelefonePrimario" type="text" />
+                            </div>
+                            <div class="col-md-6">
+                                <label>Telefone Alternativo</label>
+                                <input class="form-control" maxlength="12" v-model="rTelefoneAlternativo" type="text" />
+                            </div>
+
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="dataNasc">Endereço</label>
+                                <input class="form-control" type="text" required v-model="rEndereco" />
+                            </div>
+                            <div class="col-md-6">
+                                <label>Municipio</label>
+                                <Select class="form-control" v-bind:class="validMunicipio ?'is-valid' : 'is-invalid'" v-model="rIdMunicipio">
+                                    <optgroup v-bind:label="p.NomeProvincia" v-for="p in prov">
+                                        <option v-bind:value="m.IdMunicipio" v-for="m in p.Municipios">{{m.NomeMunicipio}}</option>
+                                    </optgroup>
+                                </Select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label for="numDoc">Nº do CNES</label>
+                                <input class="form-control" maxlength="15" id="rCNES" v-model="rCNES" />
+                            </div>
+                            <div class="col-md-4">
+                                <label for="numDoc">Nº do IBGE</label>
+                                <input class="form-control" maxlength="15" id="rIBGE" v-model="rIBGE" />
+                            </div>
+                            <div class="col-md-4">
+                                <label for="numDoc">Nº do UF</label>
+                                <input class="form-control" maxlength="15" id="rUF" v-model="rUF" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i>&nbsp;Cancelar</button>
+                        <button type="button" class="btn btn-success" v-if="validFormulario" v-on:click="criarCliente()"><i class="fa fa-save"></i>&nbsp;Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @*<pre>{{$data | json}}</pre>*@
+    </div>
+
+@section scripts
+{
+    <script>
+        var clienteApp = new Vue({
+            el: '#app',
+            data: {
+                currentPage: 1,
+                itemsByPage: 10,
+                filtro: '',
+                clientes:[],
+                rNome:'',
+                rPessoaContacto:'',
+                rTelefonePrimario:'',
+                rTelefoneAlternativo:'',
+                rEmail:'',
+                rEndereco:'',
+                rIdMunicipio:'',
+                rObjetoSocial:'',
+                rCNES:'',
+                rIBGE:'',
+                rUF:'',
+                prov:  @Html.Raw(ViewBag.Provincia),
+                generos: @Html.Raw(ViewBag.Generos),
+                estadoscivil: @Html.Raw(ViewBag.EstadosCivis),
+                tipoDocs: @Html.Raw(ViewBag.TipoDocs)
+            },
+            watch : {
+                itemsByPage : function() {
+                    var self = this;
+
+                    self.currentPage = 1;
+                }
+            },
+            computed: {
+                clientsInPage : function() {
+                    return this.clientes.slice((this.currentPage - 1) * this.itemsByPage, (this.currentPage) * this.itemsByPage) ;
+                },
+                totalPages : function() {
+                    return Math.ceil(this.clientes.length / this.itemsByPage);
+                },
+                validNome: function() {
+                    return this.cNome !== '';
+                },
+                validPessoaContacto: function() {
+                    return this.rPessoaContacto !== '';
+                },
+
+                validEndereco : function() {
+                    return this.rEndereco !== '';
+                },
+                validObjetoSocial: function() {
+                    return this.rObjetoSocial !== '';;
+                },
+                validMunicipio: function() {
+                    return this.rIdMunicipio > 0;
+                },
+                validEmail: function() {
+                    return this.rEmail !== '' & validarEmail(this.rEmail);
+                },
+                validTelefonePrincipal: function() {
+                    return this.rTelefonePrimario !== '' & validarTelefone(this.rTelefonePrimario);
+                },
+                validTelefoneAlternativo : function() {
+                    return this.rTelefoneAlternativo === '' | validarTelefone(this.rTelefoneAlternativo);
+                },
+                validCNES: function () {
+                    return this.rCNES !== '';
+                },
+                validIBGE: function () {
+                    return this.rCNES !== '';
+                },
+                validUF: function () {
+                    return this.rUF !== '';
+                },
+                validFormulario : function() {
+                    return this.validNome &
+                        this.validMunicipio &
+                        this.validEmail 
+                }
+            },
+            methods: {
+                setPage : function(n) {
+                    var self = this;
+
+                    self.currentPage = n;
+                },
+                criarCliente: function () {
+
+                    $('#addClienteModal').modal('hide');
+
+                    var self = this;
+
+                    var datos = {
+                        Nome: this.rNome,
+                        PessoaDeContacto: this.rPessoaContacto,
+                        TelefonePrimario: this.rTelefonePrimario,
+                        TelefoneAlternativo: this.rTelefoneAlternativo,
+                        Email: this.rEmail,
+                        Endereco: this.rEndereco,
+                        ObjetoSocial: this.rObjetoSocial,
+                        CNES: this.rCNES,
+                        IdMunicipio: this.rIdMunicipio,
+                        IBGE: this.rIBGE,
+                        UF: this.rUF
+                    };
+
+                    $.ajax({
+                            url: '@Url.Action("CadastrarRequerente", "Requerente", new {Area = ""})',
+                            method: "POST",
+                            data: datos,
+                            type: 'json'
+                        })
+                        .done(function (res) {
+                            MostrarResultado(res);
+                        })
+                        .fail(function () {
+                            MsgErro();
+                        })
+                        .always(function () {
+                            //waiter.finish();
+                        });
+                },
+                filtrarCliente: function()
+                {
+                    var self = this;
+                    var waiter = Splash();
+                    $.ajax({
+                            url: '@Url.Action("PesquisarRequerentes", "Requerente", new {Area = ""})',
+                            method: "POST",
+                            data: {
+                                filtro: self.filtro
+                            },
+                            type: 'json'
+                        })
+                        .done(function (res) {
+                            console.log(res);
+                            self.currentPage = 1;
+                            self.clientes = res;
+                        })
+                        .fail(function () {
+                            MsgErro();
+                        })
+                        .always(function () {
+                            waiter.finish();
+                        });
+                },
+            },
+            filters: {
+                json: function (value) {
+                    return JSON.stringify(value, null, 2);
+                }
+            }
+        });
+    </script>
+}

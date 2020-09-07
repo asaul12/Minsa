@@ -184,6 +184,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MasterController.cs" />
+    <Compile Include="Controllers\RequerenteController.cs" />
     <Compile Include="Controllers\UtilizadoresController.cs" />
     <Compile Include="Extended.cs" />
     <Compile Include="Global.asax.cs">
@@ -12994,6 +12995,7 @@
     <Content Include="Views\Shared\Footer.cshtml" />
     <Content Include="Views\Funcionario\Index.cshtml" />
     <Content Include="Views\Funcionario\Funcionarios.cshtml" />
+    <Content Include="Views\Requerente\Requerentes.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

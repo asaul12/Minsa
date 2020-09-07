@@ -58,6 +58,7 @@
     <Compile Include="Entidades\GeneroDTO.cs" />
     <Compile Include="Entidades\MunicipioDTO.cs" />
     <Compile Include="Entidades\ProvinciaDTO.cs" />
+    <Compile Include="Entidades\RequerenteDTO.cs" />
     <Compile Include="Entidades\TipoDocumentoDTO.cs" />
     <Compile Include="Entidades\UtilizadorDTO.cs" />
     <Compile Include="FuncionarioApp.cs" />
@@ -67,6 +68,7 @@
       <DependentUpon>Msg.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RequerenteApp.cs" />
     <Compile Include="RolesApp.cs" />
     <Compile Include="UtilizadoresApp.cs" />
   </ItemGroup>

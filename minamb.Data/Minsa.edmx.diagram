@@ -24,6 +24,8 @@
         <AssociationConnector Association="MinAmbModel.FK__Funcionar__IdMun__6D0D32F4" />
         <AssociationConnector Association="MinAmbModel.FK__Funcionar__IdTip__6C190EBB" />
         <AssociationConnector Association="MinAmbModel.FK__Municipio__IdPro__60A75C0F" />
+        <EntityTypeShape EntityType="MinAmbModel.Requerente" Width="1.5" PointX="7.875" PointY="12.75" />
+        <AssociationConnector Association="MinAmbModel.FK__Requerent__IdMun__72C60C4A" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

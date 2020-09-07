@@ -116,6 +116,23 @@
           <Property Name="IdProvincia" Type="int" Nullable="false" />
           <Property Name="Nome" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <EntityType Name="Requerente">
+          <Key>
+            <PropertyRef Name="IdRequerente" />
+          </Key>
+          <Property Name="IdRequerente" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Nome" Type="varchar" MaxLength="100" />
+          <Property Name="PessoaContacto" Type="varchar" MaxLength="150" />
+          <Property Name="TelefonePrimario" Type="varchar" MaxLength="20" />
+          <Property Name="TelefoneAlternativo" Type="varchar" MaxLength="20" />
+          <Property Name="Email" Type="varchar" MaxLength="100" />
+          <Property Name="Endereco" Type="varchar" MaxLength="150" />
+          <Property Name="IdMunicipio" Type="int" Nullable="false" />
+          <Property Name="ObjetoSocial" Type="varchar" MaxLength="150" />
+          <Property Name="CNES" Type="varchar" MaxLength="10" />
+          <Property Name="IBGE" Type="varchar" MaxLength="10" />
+          <Property Name="UF" Type="varchar" MaxLength="5" />
+        </EntityType>
         <EntityType Name="TipoDocumento">
           <Key>
             <PropertyRef Name="IdTipoDocumento" />
@@ -180,6 +197,18 @@
             </Principal>
             <Dependent Role="Municipio">
               <PropertyRef Name="IdProvincia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Requerent__IdMun__72C60C4A">
+          <End Role="Municipio" Type="Self.Municipio" Multiplicity="1" />
+          <End Role="Requerente" Type="Self.Requerente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Municipio">
+              <PropertyRef Name="IdMunicipio" />
+            </Principal>
+            <Dependent Role="Requerente">
+              <PropertyRef Name="IdMunicipio" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -251,6 +280,7 @@
           <EntitySet Name="Genero" EntityType="Self.Genero" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Municipio" EntityType="Self.Municipio" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Provincia" EntityType="Self.Provincia" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Requerente" EntityType="Self.Requerente" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TipoDocumento" EntityType="Self.TipoDocumento" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__Funcionar__IdEst__6E01572D" Association="Self.FK__Funcionar__IdEst__6E01572D">
             <End Role="EstadoCivil" EntitySet="EstadoCivil" />
@@ -271,6 +301,10 @@
           <AssociationSet Name="FK__Municipio__IdPro__60A75C0F" Association="Self.FK__Municipio__IdPro__60A75C0F">
             <End Role="Provincia" EntitySet="Provincia" />
             <End Role="Municipio" EntitySet="Municipio" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Requerent__IdMun__72C60C4A" Association="Self.FK__Requerent__IdMun__72C60C4A">
+            <End Role="Municipio" EntitySet="Municipio" />
+            <End Role="Requerente" EntitySet="Requerente" />
           </AssociationSet>
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -336,6 +370,11 @@
           <AssociationSet Name="FK__Municipio__IdPro__60A75C0F" Association="MinAmbModel.FK__Municipio__IdPro__60A75C0F">
             <End Role="Provincia" EntitySet="Provincia" />
             <End Role="Municipio" EntitySet="Municipio" />
+          </AssociationSet>
+          <EntitySet Name="Requerente" EntityType="MinAmbModel.Requerente" />
+          <AssociationSet Name="FK__Requerent__IdMun__72C60C4A" Association="MinAmbModel.FK__Requerent__IdMun__72C60C4A">
+            <End Role="Municipio" EntitySet="Municipio" />
+            <End Role="Requerente" EntitySet="Requerente" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="C__MigrationHistory">
@@ -479,6 +518,7 @@
           <Property Name="Nome" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Funcionario" Relationship="MinAmbModel.FK__Funcionar__IdMun__6D0D32F4" FromRole="Municipio" ToRole="Funcionario" />
           <NavigationProperty Name="Provincia" Relationship="MinAmbModel.FK__Municipio__IdPro__60A75C0F" FromRole="Municipio" ToRole="Provincia" />
+          <NavigationProperty Name="Requerente" Relationship="MinAmbModel.FK__Requerent__IdMun__72C60C4A" FromRole="Municipio" ToRole="Requerente" />
         </EntityType>
         <EntityType Name="Provincia">
           <Key>
@@ -553,6 +593,36 @@
             </Principal>
             <Dependent Role="Municipio">
               <PropertyRef Name="IdProvincia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Requerente">
+          <Key>
+            <PropertyRef Name="IdRequerente" />
+          </Key>
+          <Property Name="IdRequerente" Type="Guid" Nullable="false" />
+          <Property Name="Nome" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PessoaContacto" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="TelefonePrimario" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="TelefoneAlternativo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Endereco" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="IdMunicipio" Type="Int32" Nullable="false" />
+          <Property Name="ObjetoSocial" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="CNES" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="IBGE" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="UF" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Municipio" Relationship="MinAmbModel.FK__Requerent__IdMun__72C60C4A" FromRole="Requerente" ToRole="Municipio" />
+        </EntityType>
+        <Association Name="FK__Requerent__IdMun__72C60C4A">
+          <End Type="MinAmbModel.Municipio" Role="Municipio" Multiplicity="1" />
+          <End Type="MinAmbModel.Requerente" Role="Requerente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Municipio">
+              <PropertyRef Name="IdMunicipio" />
+            </Principal>
+            <Dependent Role="Requerente">
+              <PropertyRef Name="IdMunicipio" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -685,6 +755,24 @@
               <MappingFragment StoreEntitySet="TipoDocumento">
                 <ScalarProperty Name="Tipo" ColumnName="Tipo" />
                 <ScalarProperty Name="IdTipoDocumento" ColumnName="IdTipoDocumento" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Requerente">
+            <EntityTypeMapping TypeName="MinAmbModel.Requerente">
+              <MappingFragment StoreEntitySet="Requerente">
+                <ScalarProperty Name="UF" ColumnName="UF" />
+                <ScalarProperty Name="IBGE" ColumnName="IBGE" />
+                <ScalarProperty Name="CNES" ColumnName="CNES" />
+                <ScalarProperty Name="ObjetoSocial" ColumnName="ObjetoSocial" />
+                <ScalarProperty Name="IdMunicipio" ColumnName="IdMunicipio" />
+                <ScalarProperty Name="Endereco" ColumnName="Endereco" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="TelefoneAlternativo" ColumnName="TelefoneAlternativo" />
+                <ScalarProperty Name="TelefonePrimario" ColumnName="TelefonePrimario" />
+                <ScalarProperty Name="PessoaContacto" ColumnName="PessoaContacto" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="IdRequerente" ColumnName="IdRequerente" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

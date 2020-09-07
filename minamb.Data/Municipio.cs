@@ -18,6 +18,7 @@ namespace minamb.Data
         public Municipio()
         {
             this.Funcionario = new HashSet<Funcionario>();
+            this.Requerente = new HashSet<Requerente>();
         }
     
         public int IdMunicipio { get; set; }
@@ -27,5 +28,7 @@ namespace minamb.Data
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Funcionario> Funcionario { get; set; }
         public virtual Provincia Provincia { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Requerente> Requerente { get; set; }
     }
 }

@@ -36,5 +36,6 @@ namespace minamb.Data
         public virtual DbSet<Municipio> Municipio { get; set; }
         public virtual DbSet<Provincia> Provincia { get; set; }
         public virtual DbSet<TipoDocumento> TipoDocumento { get; set; }
+        public virtual DbSet<Requerente> Requerente { get; set; }
     }
 }
