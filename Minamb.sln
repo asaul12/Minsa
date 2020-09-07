@@ -14,6 +14,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5 - Documents", "5 - Documents", "{6EC3D380-612E-42FB-B674-A3B2333B3F63}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "6 - Querys", "6 - Querys", "{9ABCE6C0-1160-4496-9EF0-56A25498F2D9}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\..\Documents\MinsaSQL.sql = ..\..\..\Documents\MinsaSQL.sql
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "minamb.Data", "minamb.Data\minamb.Data.csproj", "{AE8CA5A5-6E82-4DFB-BC88-705A4C69E925}"
 EndProject
